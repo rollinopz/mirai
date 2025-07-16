@@ -1,0 +1,2478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AZ-900 Microsoft Azure Fundamentals - Part 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0078D4 0%, #106EBE 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20 20h60v60H20z" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/><path d="M30 30h40v40H30z" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section h2 {
+            color: #0078D4;
+            font-size: 2em;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #0078D4;
+            display: flex;
+            align-items: center;
+        }
+
+        .section h2::before {
+            content: '📊';
+            margin-right: 15px;
+            font-size: 1.2em;
+        }
+
+        .question {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .question:hover {
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+            border-color: #0078D4;
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            background: #0078D4;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .question-type {
+            background: #E1F5FE;
+            color: #0078D4;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .question-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .options {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .options li {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .options li::before {
+            content: '';
+            width: 18px;
+            height: 18px;
+            border: 2px solid #0078D4;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .options li:hover {
+            border-color: #0078D4;
+            background: #f0f8ff;
+        }
+
+        .options li.selected {
+            border-color: #0078D4;
+            background: #e3f2fd;
+        }
+
+        .options li.selected::before {
+            background: #0078D4;
+            box-shadow: inset 0 0 0 3px white;
+        }
+
+        .options li.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .options li.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .drag-drop-container {
+            background: #f8f9fa;
+            border: 2px dashed #0078D4;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 100px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .drag-item {
+            background: #0078D4;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: move;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .drag-item:hover {
+            background: #106EBE;
+            transform: scale(1.05);
+        }
+
+        .drag-item.dragging {
+            opacity: 0.5;
+        }
+
+        .drop-zone {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone.drag-over {
+            border-color: #0078D4;
+            background: #e3f2fd;
+        }
+
+        .drop-zone.filled {
+            background: #e8f5e8;
+            border-color: #28a745;
+        }
+
+        .show-answer-btn {
+            background: linear-gradient(135deg, #0078D4 0%, #106EBE 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .show-answer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .answer-explanation {
+            background: #e8f5e8;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+
+        .answer-explanation.show {
+            display: block;
+        }
+
+        .scenario-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #f39c12;
+        }
+
+        .scenario-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 30px;
+            background: #0078D4;
+            color: white;
+            font-size: 1.1em;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section h2 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AZ-900 Microsoft Azure Fundamentals</h1>
+            <p>Practice Questions - Part 1 of 3</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>Cloud Concepts</h2>
+                
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">1</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What are the three main cloud service models?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Public, Private, Hybrid</li>
+                        <li data-option="b">B) Infrastructure as a Service (IaaS), Platform as a Service (PaaS), Software as a Service (SaaS)</li>
+                        <li data-option="c">C) Compute, Storage, Networking</li>
+                        <li data-option="d">D) Development, Testing, Production</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) Infrastructure as a Service (IaaS), Platform as a Service (PaaS), Software as a Service (SaaS)</strong><br>
+                        The three main cloud service models are IaaS (provides virtualized computing resources), PaaS (provides a platform for developing and deploying applications), and SaaS (provides software applications over the internet).
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">2</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">Which cloud deployment model allows organizations to keep some resources on-premises while moving others to the cloud?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Public cloud</li>
+                        <li data-option="b">B) Private cloud</li>
+                        <li data-option="c">C) Hybrid cloud</li>
+                        <li data-option="d">D) Community cloud</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) Hybrid cloud</strong><br>
+                        Hybrid cloud combines public and private cloud environments, allowing organizations to keep some resources on-premises while leveraging cloud services for others, providing flexibility and gradual migration paths.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">3</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is the primary benefit of cloud computing's elasticity feature?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Ability to automatically scale resources up or down based on demand</li>
+                        <li data-option="b">B) Guaranteed 100% uptime</li>
+                        <li data-option="c">C) Fixed monthly costs</li>
+                        <li data-option="d">D) Enhanced security features</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) Ability to automatically scale resources up or down based on demand</strong><br>
+                        Elasticity allows cloud resources to automatically adjust to workload changes, scaling up during high demand and scaling down during low demand, optimizing both performance and costs.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">4</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">Which of the following best describes "high availability" in cloud computing?</div>
+                    <ul class="options">
+                        <li data-option="a">A) The ability to handle increased workloads</li>
+                        <li data-option="b">B) The system's ability to remain operational with minimal downtime</li>
+                        <li data-option="c">C) The cost-effectiveness of cloud services</li>
+                        <li data-option="d">D) The security of cloud infrastructure</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) The system's ability to remain operational with minimal downtime</strong><br>
+                        High availability refers to a system's ability to remain operational and accessible with minimal downtime, typically achieved through redundancy, failover mechanisms, and geographic distribution.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">5</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is the difference between scalability and elasticity in cloud computing?</div>
+                    <ul class="options">
+                        <li data-option="a">A) There is no difference; they are the same concept</li>
+                        <li data-option="b">B) Scalability is automatic, elasticity is manual</li>
+                        <li data-option="c">C) Scalability is the ability to handle increased load, elasticity is the automatic adjustment of resources</li>
+                        <li data-option="d">D) Scalability is for storage, elasticity is for compute</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) Scalability is the ability to handle increased load, elasticity is the automatic adjustment of resources</strong><br>
+                        Scalability refers to the system's ability to handle increased workload, while elasticity is the automatic provisioning and deprovisioning of resources in response to demand changes.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">6</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">Which cloud service model provides the most control over the underlying infrastructure?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Infrastructure as a Service (IaaS)</li>
+                        <li data-option="b">B) Platform as a Service (PaaS)</li>
+                        <li data-option="c">C) Software as a Service (SaaS)</li>
+                        <li data-option="d">D) Function as a Service (FaaS)</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) Infrastructure as a Service (IaaS)</strong><br>
+                        IaaS provides the most control over the underlying infrastructure, including virtual machines, storage, and networking components, while the cloud provider manages the physical hardware.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">7</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is the primary advantage of using a consumption-based pricing model in cloud computing?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Predictable monthly costs</li>
+                        <li data-option="b">B) Pay only for resources actually used</li>
+                        <li data-option="c">C) Guaranteed performance levels</li>
+                        <li data-option="d">D) Enhanced security features</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) Pay only for resources actually used</strong><br>
+                        Consumption-based pricing allows organizations to pay only for the resources they actually consume, eliminating the need for large upfront investments and reducing waste from over-provisioning.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="d">
+                    <div class="question-header">
+                        <div class="question-number">8</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">Which of the following is NOT a benefit of cloud computing?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Global reach and accessibility</li>
+                        <li data-option="b">B) Automatic software updates</li>
+                        <li data-option="c">C) Reduced capital expenditure</li>
+                        <li data-option="d">D) Complete control over physical hardware</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: D) Complete control over physical hardware</strong><br>
+                        In cloud computing, the cloud provider manages the physical hardware. Users do not have complete control over the physical infrastructure, which is actually one of the benefits as it reduces management overhead.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Core Azure Services</h2>
+                
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">1</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is an Azure Region?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A single data center</li>
+                        <li data-option="b">B) A geographical area containing multiple data centers</li>
+                        <li data-option="c">C) A virtual network segment</li>
+                        <li data-option="d">D) A resource group</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) A geographical area containing multiple data centers</strong><br>
+                        An Azure Region is a geographical area containing multiple data centers that are connected through a dedicated regional low-latency network, providing high availability and disaster recovery capabilities.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">2</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is the primary purpose of Azure Availability Zones?</div>
+                    <ul class="options">
+                        <li data-option="a">A) To provide different pricing tiers</li>
+                        <li data-option="b">B) To separate different types of resources</li>
+                        <li data-option="c">C) To provide high availability and protect against data center failures</li>
+                        <li data-option="d">D) To manage network traffic</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) To provide high availability and protect against data center failures</strong><br>
+                        Azure Availability Zones are physically separated locations within an Azure region that provide high availability and protect applications and data from datacenter failures through redundancy.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">3</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">Which Azure service provides scalable virtual machines?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Azure Virtual Machines</li>
+                        <li data-option="b">B) Azure Storage</li>
+                        <li data-option="c">C) Azure Active Directory</li>
+                        <li data-option="d">D) Azure DNS</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) Azure Virtual Machines</strong><br>
+                        Azure Virtual Machines provides on-demand, scalable computing resources that can be configured with various operating systems and applications, offering Infrastructure as a Service (IaaS).
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">4</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure App Service primarily used for?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Managing virtual machines</li>
+                        <li data-option="b">B) Hosting web applications and APIs</li>
+                        <li data-option="c">C) Storing large amounts of data</li>
+                        <li data-option="d">D) Managing user identities</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) Hosting web applications and APIs</strong><br>
+                        Azure App Service is a Platform as a Service (PaaS) offering that enables developers to build, deploy, and scale web applications and APIs quickly without managing the underlying infrastructure.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">5</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">Which Azure storage service is best for storing unstructured data like documents and images?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Azure SQL Database</li>
+                        <li data-option="b">B) Azure Table Storage</li>
+                        <li data-option="c">C) Azure Blob Storage</li>
+                        <li data-option="d">D) Azure Queue Storage</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) Azure Blob Storage</strong><br>
+                        Azure Blob Storage is designed for storing unstructured data such as documents, images, videos, and backup files. It provides different access tiers for cost optimization based on usage patterns.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">6</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Virtual Network (VNet)?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A logically isolated network in Azure</li>
+                        <li data-option="b">B) A physical network connection</li>
+                        <li data-option="c">C) A storage service</li>
+                        <li data-option="d">D) A compute service</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) A logically isolated network in Azure</strong><br>
+                        Azure Virtual Network (VNet) provides a logically isolated network environment in Azure where you can securely communicate between Azure resources, the internet, and on-premises networks.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">7</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">Which Azure service provides managed relational database services?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Azure Cosmos DB</li>
+                        <li data-option="b">B) Azure SQL Database</li>
+                        <li data-option="c">C) Azure Blob Storage</li>
+                        <li data-option="d">D) Azure Table Storage</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) Azure SQL Database</strong><br>
+                        Azure SQL Database is a fully managed relational database service that provides high availability, security, and performance for SQL Server workloads in the cloud.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="d">
+                    <div class="question-header">
+                        <div class="question-number">8</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Functions primarily used for?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Managing virtual machines</li>
+                        <li data-option="b">B) Storing data</li>
+                        <li data-option="c">C) Creating virtual networks</li>
+                        <li data-option="d">D) Running event-driven, serverless code</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: D) Running event-driven, serverless code</strong><br>
+                        Azure Functions is a serverless compute service that allows you to run event-driven code without managing infrastructure, automatically scaling based on demand and charging only for execution time.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">9</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">Which Azure service provides a globally distributed, multi-model database?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Azure SQL Database</li>
+                        <li data-option="b">B) Azure Database for MySQL</li>
+                        <li data-option="c">C) Azure Cosmos DB</li>
+                        <li data-option="d">D) Azure Synapse Analytics</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) Azure Cosmos DB</strong><br>
+                        Azure Cosmos DB is a globally distributed, multi-model database service that supports multiple data models including document, key-value, graph, and column-family, with guaranteed low latency and high availability.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">10</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Container Instances (ACI) used for?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Running containers without managing underlying infrastructure</li>
+                        <li data-option="b">B) Managing virtual machines</li>
+                        <li data-option="c">C) Storing container images</li>
+                        <li data-option="d">D) Creating virtual networks</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) Running containers without managing underlying infrastructure</strong><br>
+                        Azure Container Instances (ACI) provides a fast and simple way to run containers in Azure without managing virtual machines or orchestration services, offering a serverless container experience.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            © Bright Mind Tech 2025
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const questions = document.querySelectorAll('.question');
+            
+            questions.forEach(question => {
+                const options = question.querySelectorAll('.options li');
+                const showAnswerBtn = question.querySelector('.show-answer-btn');
+                const answerExplanation = question.querySelector('.answer-explanation');
+                const correctAnswer = question.getAttribute('data-answer');
+                
+                // Handle option selection
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        // Remove selected class from all options in this question
+                        options.forEach(opt => opt.classList.remove('selected'));
+                        // Add selected class to clicked option
+                        this.classList.add('selected');
+                    });
+                });
+                
+                // Handle show answer button
+                showAnswerBtn.addEventListener('click', function() {
+                    answerExplanation.classList.add('show');
+                    showAnswerBtn.style.display = 'none';
+                    
+                    // Highlight correct and incorrect answers
+                    options.forEach(option => {
+                        const optionLetter = option.getAttribute('data-option');
+                        if (optionLetter === correctAnswer) {
+                            option.classList.add('correct');
+                        } else if (option.classList.contains('selected')) {
+                            option.classList.add('incorrect');
+                        }
+                    });
+                });
+            });
+
+            // Drag and drop functionality for future questions
+            function initDragDrop() {
+                const dragItems = document.querySelectorAll('.drag-item');
+                const dropZones = document.querySelectorAll('.drop-zone');
+                
+                dragItems.forEach(item => {
+                    item.addEventListener('dragstart', function(e) {
+                        this.classList.add('dragging');
+                        e.dataTransfer.setData('text/plain', this.textContent);
+                    });
+                    
+                    item.addEventListener('dragend', function() {
+                        this.classList.remove('dragging');
+                    });
+                });
+                
+                dropZones.forEach(zone => {
+                    zone.addEventListener('dragover', function(e) {
+                        e.preventDefault();
+                        this.classList.add('drag-over');
+                    });
+                    
+                    zone.addEventListener('dragleave', function() {
+                        this.classList.remove('drag-over');
+                    });
+                    
+                    zone.addEventListener('drop', function(e) {
+                        e.preventDefault();
+                        this.classList.remove('drag-over');
+                        this.classList.add('filled');
+                        this.textContent = e.dataTransfer.getData('text/plain');
+                    });
+                });
+            }
+            
+            initDragDrop();
+        });
+    </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AZ-900 Microsoft Azure Fundamentals - Part 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0078D4 0%, #106EBE 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20 20h60v60H20z" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/><path d="M30 30h40v40H30z" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section h2 {
+            color: #0078D4;
+            font-size: 2em;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #0078D4;
+            display: flex;
+            align-items: center;
+        }
+
+        .section h2::before {
+            content: '🔧';
+            margin-right: 15px;
+            font-size: 1.2em;
+        }
+
+        .section h2.security::before {
+            content: '🔒';
+        }
+
+        .question {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .question:hover {
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+            border-color: #0078D4;
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            background: #0078D4;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .question-type {
+            background: #E1F5FE;
+            color: #0078D4;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .question-type.drag-drop {
+            background: #FFF3E0;
+            color: #FF6F00;
+        }
+
+        .question-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .options {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .options li {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .options li::before {
+            content: '';
+            width: 18px;
+            height: 18px;
+            border: 2px solid #0078D4;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .options li:hover {
+            border-color: #0078D4;
+            background: #f0f8ff;
+        }
+
+        .options li.selected {
+            border-color: #0078D4;
+            background: #e3f2fd;
+        }
+
+        .options li.selected::before {
+            background: #0078D4;
+            box-shadow: inset 0 0 0 3px white;
+        }
+
+        .options li.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .options li.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .drag-drop-container {
+            background: #f8f9fa;
+            border: 2px dashed #0078D4;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 120px;
+        }
+
+        .drag-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .drag-item {
+            background: #0078D4;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: move;
+            user-select: none;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .drag-item:hover {
+            background: #106EBE;
+            transform: scale(1.05);
+        }
+
+        .drag-item.dragging {
+            opacity: 0.5;
+        }
+
+        .drop-zones {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .drop-zone {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .drop-zone.drag-over {
+            border-color: #0078D4;
+            background: #e3f2fd;
+        }
+
+        .drop-zone.filled {
+            background: #e8f5e8;
+            border-color: #28a745;
+        }
+
+        .drop-zone-label {
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .scenario-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #f39c12;
+        }
+
+        .scenario-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .show-answer-btn {
+            background: linear-gradient(135deg, #0078D4 0%, #106EBE 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .show-answer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .answer-explanation {
+            background: #e8f5e8;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+
+        .answer-explanation.show {
+            display: block;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 30px;
+            background: #0078D4;
+            color: white;
+            font-size: 1.1em;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section h2 {
+                font-size: 1.5em;
+            }
+
+            .drop-zones {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AZ-900 Microsoft Azure Fundamentals</h1>
+            <p>Practice Questions - Part 2 of 3</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>Core Solutions and Management Tools</h2>
+                
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">1</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Resource Manager (ARM)?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A virtual machine management service</li>
+                        <li data-option="b">B) A storage management service</li>
+                        <li data-option="c">C) The deployment and management service for Azure resources</li>
+                        <li data-option="d">D) A network management service</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) The deployment and management service for Azure resources</strong><br>
+                        Azure Resource Manager (ARM) is the deployment and management service for Azure that provides a management layer enabling you to create, update, and delete resources in your Azure account.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">2</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is the primary purpose of Azure Monitor?</div>
+                    <ul class="options">
+                        <li data-option="a">A) To collect, analyze, and act on telemetry data from Azure resources</li>
+                        <li data-option="b">B) To manage user identities</li>
+                        <li data-option="c">C) To deploy virtual machines</li>
+                        <li data-option="d">D) To configure network settings</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) To collect, analyze, and act on telemetry data from Azure resources</strong><br>
+                        Azure Monitor maximizes the availability and performance of applications and services by collecting, analyzing, and acting on telemetry data from your cloud and on-premises environments.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">3</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Backup used for?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Creating virtual machines</li>
+                        <li data-option="b">B) Protecting data and applications with backup and restore capabilities</li>
+                        <li data-option="c">C) Managing network traffic</li>
+                        <li data-option="d">D) Monitoring application performance</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) Protecting data and applications with backup and restore capabilities</strong><br>
+                        Azure Backup is a simple, secure, and cost-effective solution to back up your data and recover it from the Microsoft Azure cloud, protecting against data loss and corruption.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="d">
+                    <div class="question-header">
+                        <div class="question-number">4</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure DevOps primarily used for?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Managing virtual machines</li>
+                        <li data-option="b">B) Storing data</li>
+                        <li data-option="c">C) Network configuration</li>
+                        <li data-option="d">D) Software development lifecycle management and collaboration</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: D) Software development lifecycle management and collaboration</strong><br>
+                        Azure DevOps provides developer services for support teams to plan work, collaborate on code development, and build and deploy applications across multiple platforms and clouds.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">5</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Site Recovery used for?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Creating web applications</li>
+                        <li data-option="b">B) Managing databases</li>
+                        <li data-option="c">C) Disaster recovery and business continuity</li>
+                        <li data-option="d">D) Monitoring network performance</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) Disaster recovery and business continuity</strong><br>
+                        Azure Site Recovery helps ensure business continuity by keeping business apps and workloads running during outages through replication, failover, and failback capabilities.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">6</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Advisor?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A personalized cloud consultant that provides best practice recommendations</li>
+                        <li data-option="b">B) A virtual machine management tool</li>
+                        <li data-option="c">C) A database optimization service</li>
+                        <li data-option="d">D) A network monitoring tool</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) A personalized cloud consultant that provides best practice recommendations</strong><br>
+                        Azure Advisor is a personalized cloud consultant that helps you follow best practices to optimize your Azure deployments, providing recommendations for high availability, security, performance, and cost.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">7</div>
+                        <div class="question-type">Drag and Drop</div>
+                    </div>
+                    <div class="question-title">Match the Azure management tools with their primary purposes:</div>
+                    <div class="drag-drop-container">
+                        <div class="drag-items">
+                            <div class="drag-item" draggable="true">Azure Portal</div>
+                            <div class="drag-item" draggable="true">Azure CLI</div>
+                            <div class="drag-item" draggable="true">Azure PowerShell</div>
+                            <div class="drag-item" draggable="true">Azure Resource Manager Templates</div>
+                        </div>
+                        <div class="drop-zones">
+                            <div>
+                                <div class="drop-zone-label">Web-based management interface</div>
+                                <div class="drop-zone" data-correct="Azure Portal"></div>
+                            </div>
+                            <div>
+                                <div class="drop-zone-label">Command-line interface for cross-platform management</div>
+                                <div class="drop-zone" data-correct="Azure CLI"></div>
+                            </div>
+                            <div>
+                                <div class="drop-zone-label">PowerShell-based management for Windows environments</div>
+                                <div class="drop-zone" data-correct="Azure PowerShell"></div>
+                            </div>
+                            <div>
+                                <div class="drop-zone-label">Infrastructure as Code for automated deployments</div>
+                                <div class="drop-zone" data-correct="Azure Resource Manager Templates"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answers:</strong><br>
+                        • Azure Portal → Web-based management interface<br>
+                        • Azure CLI → Command-line interface for cross-platform management<br>
+                        • Azure PowerShell → PowerShell-based management for Windows environments<br>
+                        • Azure Resource Manager Templates → Infrastructure as Code for automated deployments
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">8</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Service Health?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A backup service</li>
+                        <li data-option="b">B) A virtual machine monitoring tool</li>
+                        <li data-option="c">C) A service that provides information about Azure service incidents and planned maintenance</li>
+                        <li data-option="d">D) A cost management tool</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) A service that provides information about Azure service incidents and planned maintenance</strong><br>
+                        Azure Service Health provides personalized alerts and guidance when Azure service issues affect you, helping you stay informed about service incidents, planned maintenance, and health advisories.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="security">General Security and Network Security Features</h2>
+                
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">1</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Security Center primarily used for?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Unified security management and threat protection across hybrid cloud workloads</li>
+                        <li data-option="b">B) Managing virtual machines</li>
+                        <li data-option="c">C) Creating storage accounts</li>
+                        <li data-option="d">D) Configuring network settings</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) Unified security management and threat protection across hybrid cloud workloads</strong><br>
+                        Azure Security Center (now Microsoft Defender for Cloud) provides unified security management and threat protection across hybrid cloud workloads, helping strengthen security posture and protect against threats.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">2</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Key Vault used for?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Storing virtual machines</li>
+                        <li data-option="b">B) Securely storing and managing cryptographic keys, secrets, and certificates</li>
+                        <li data-option="c">C) Managing network traffic</li>
+                        <li data-option="d">D) Creating databases</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) Securely storing and managing cryptographic keys, secrets, and certificates</strong><br>
+                        Azure Key Vault helps safeguard cryptographic keys and secrets used by cloud applications and services, providing centralized management and enhanced security for sensitive information.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">3</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure DDoS Protection?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A backup service</li>
+                        <li data-option="b">B) A database security feature</li>
+                        <li data-option="c">C) A service that protects against distributed denial of service attacks</li>
+                        <li data-option="d">D) A virtual machine monitoring tool</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) A service that protects against distributed denial of service attacks</strong><br>
+                        Azure DDoS Protection provides countermeasures against the most sophisticated DDoS threats, helping protect Azure applications from distributed denial of service attacks.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">4</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is a Network Security Group (NSG) in Azure?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A virtual firewall that controls inbound and outbound traffic</li>
+                        <li data-option="b">B) A storage security feature</li>
+                        <li data-option="c">C) A database access control mechanism</li>
+                        <li data-option="d">D) A virtual machine management tool</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) A virtual firewall that controls inbound and outbound traffic</strong><br>
+                        A Network Security Group (NSG) acts as a virtual firewall that controls inbound and outbound traffic to network interfaces, VMs, and subnets based on security rules.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">5</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Firewall?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A physical security device</li>
+                        <li data-option="b">B) A managed, cloud-based network security service</li>
+                        <li data-option="c">C) A storage encryption service</li>
+                        <li data-option="d">D) A database security feature</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) A managed, cloud-based network security service</strong><br>
+                        Azure Firewall is a managed, cloud-based network security service that protects your Azure Virtual Network resources with built-in high availability and unrestricted cloud scalability.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">6</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Sentinel?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A backup service</li>
+                        <li data-option="b">B) A virtual machine management tool</li>
+                        <li data-option="c">C) A cloud-native security information and event management (SIEM) solution</li>
+                        <li data-option="d">D) A network configuration service</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) A cloud-native security information and event management (SIEM) solution</strong><br>
+                        Azure Sentinel is a cloud-native SIEM and security orchestration automated response (SOAR) solution that provides intelligent security analytics and threat intelligence across the enterprise.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">7</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Information Protection used for?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Classifying, labeling, and protecting sensitive data</li>
+                        <li data-option="b">B) Managing virtual machines</li>
+                        <li data-option="c">C) Creating storage accounts</li>
+                        <li data-option="d">D) Configuring networks</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) Classifying, labeling, and protecting sensitive data</strong><br>
+                        Azure Information Protection helps organizations classify, label, and protect sensitive data whether it's stored on-premises or in the cloud, providing persistent protection that follows data wherever it goes.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">8</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is the principle of "Defense in Depth" in Azure security?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Using only one strong security measure</li>
+                        <li data-option="b">B) Implementing multiple layers of security controls</li>
+                        <li data-option="c">C) Focusing only on network security</li>
+                        <li data-option="d">D) Relying only on user authentication</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) Implementing multiple layers of security controls</strong><br>
+                        Defense in Depth is a security strategy that employs multiple layers of security controls throughout an IT system, so if one layer fails, another layer provides protection.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">9</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Application Gateway?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A database service</li>
+                        <li data-option="b">B) A storage service</li>
+                        <li data-option="c">C) A web traffic load balancer with application-level routing</li>
+                        <li data-option="d">D) A virtual machine management tool</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) A web traffic load balancer with application-level routing</strong><br>
+                        Azure Application Gateway is a web traffic load balancer that enables you to manage traffic to your web applications, providing application-level routing and load balancing services.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">10</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="scenario-box">
+                        <div class="scenario-title">Scenario:</div>
+                        Your company wants to ensure that all data stored in Azure is encrypted both at rest and in transit. You need to implement a solution that provides centralized key management and meets compliance requirements.
+                    </div>
+                    <div class="question-title">Which Azure service would be most appropriate for this scenario?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Azure Key Vault</li>
+                        <li data-option="b">B) Azure Storage</li>
+                        <li data-option="c">C) Azure Monitor</li>
+                        <li data-option="d">D) Azure Backup</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) Azure Key Vault</strong><br>
+                        Azure Key Vault provides centralized key management for encryption keys, secrets, and certificates, helping organizations meet compliance requirements while ensuring data is encrypted at rest and in transit.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">11</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Bastion?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A storage service</li>
+                        <li data-option="b">B) A secure RDP/SSH connectivity service to virtual machines</li>
+                        <li data-option="c">C) A database management tool</li>
+                        <li data-option="d">D) A network monitoring service</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) A secure RDP/SSH connectivity service to virtual machines</strong><br>
+                        Azure Bastion provides secure and seamless RDP/SSH connectivity to your virtual machines directly through the Azure portal over TLS, without exposing VMs to the public internet.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">12</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is the purpose of Azure Private Link?</div>
+                    <ul class="options">
+                        <li data-option="a">A) To create public IP addresses</li>
+                        <li data-option="b">B) To manage DNS settings</li>
+                        <li data-option="c">C) To access Azure services privately from a virtual network</li>
+                        <li data-option="d">D) To create load balancers</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) To access Azure services privately from a virtual network</strong><br>
+                        Azure Private Link enables you to access Azure services privately from your virtual network, keeping traffic within the Microsoft network and eliminating exposure to the public internet.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            © Bright Mind Tech 2025
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const questions = document.querySelectorAll('.question');
+            
+            questions.forEach(question => {
+                const options = question.querySelectorAll('.options li');
+                const showAnswerBtn = question.querySelector('.show-answer-btn');
+                const answerExplanation = question.querySelector('.answer-explanation');
+                const correctAnswer = question.getAttribute('data-answer');
+                
+                // Handle option selection
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        // Remove selected class from all options in this question
+                        options.forEach(opt => opt.classList.remove('selected'));
+                        // Add selected class to clicked option
+                        this.classList.add('selected');
+                    });
+                });
+                
+                // Handle show answer button
+                showAnswerBtn.addEventListener('click', function() {
+                    answerExplanation.classList.add('show');
+                    showAnswerBtn.style.display = 'none';
+                    
+                    // Highlight correct and incorrect answers
+                    options.forEach(option => {
+                        const optionLetter = option.getAttribute('data-option');
+                        if (optionLetter === correctAnswer) {
+                            option.classList.add('correct');
+                        } else if (option.classList.contains('selected')) {
+                            option.classList.add('incorrect');
+                        }
+                    });
+                });
+            });
+
+            // Drag and drop functionality
+            const dragItems = document.querySelectorAll('.drag-item');
+            const dropZones = document.querySelectorAll('.drop-zone');
+            
+            dragItems.forEach(item => {
+                item.addEventListener('dragstart', function(e) {
+                    this.classList.add('dragging');
+                    e.dataTransfer.setData('text/plain', this.textContent);
+                });
+                
+                item.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                });
+            });
+            
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('drag-over');
+                });
+                
+                zone.addEventListener('dragleave', function() {
+                    this.classList.remove('drag-over');
+                });
+                
+                zone.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('drag-over');
+                    
+                    const draggedText = e.dataTransfer.getData('text/plain');
+                    this.textContent = draggedText;
+                    
+                    // Check if correct
+                    const correctAnswer = this.getAttribute('data-correct');
+                    if (draggedText === correctAnswer) {
+                        this.classList.add('filled');
+                    } else {
+                        this.style.backgroundColor = '#f8d7da';
+                        this.style.borderColor = '#dc3545';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AZ-900 Microsoft Azure Fundamentals - Part 3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0078D4 0%, #106EBE 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20 20h60v60H20z" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/><path d="M30 30h40v40H30z" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section h2 {
+            color: #0078D4;
+            font-size: 2em;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #0078D4;
+            display: flex;
+            align-items: center;
+        }
+
+        .section h2::before {
+            content: '👤';
+            margin-right: 15px;
+            font-size: 1.2em;
+        }
+
+        .section h2.cost::before {
+            content: '💰';
+        }
+
+        .question {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .question:hover {
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+            border-color: #0078D4;
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            background: #0078D4;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .question-type {
+            background: #E1F5FE;
+            color: #0078D4;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .question-type.drag-drop {
+            background: #FFF3E0;
+            color: #FF6F00;
+        }
+
+        .question-type.hotspot {
+            background: #F3E5F5;
+            color: #9C27B0;
+        }
+
+        .question-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .options {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .options li {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .options li::before {
+            content: '';
+            width: 18px;
+            height: 18px;
+            border: 2px solid #0078D4;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .options li:hover {
+            border-color: #0078D4;
+            background: #f0f8ff;
+        }
+
+        .options li.selected {
+            border-color: #0078D4;
+            background: #e3f2fd;
+        }
+
+        .options li.selected::before {
+            background: #0078D4;
+            box-shadow: inset 0 0 0 3px white;
+        }
+
+        .options li.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .options li.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .checkbox-options {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-options li {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-options li::before {
+            content: '';
+            width: 18px;
+            height: 18px;
+            border: 2px solid #0078D4;
+            border-radius: 3px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .checkbox-options li:hover {
+            border-color: #0078D4;
+            background: #f0f8ff;
+        }
+
+        .checkbox-options li.selected {
+            border-color: #0078D4;
+            background: #e3f2fd;
+        }
+
+        .checkbox-options li.selected::before {
+            background: #0078D4;
+            content: '✓';
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .checkbox-options li.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .checkbox-options li.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .scenario-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #f39c12;
+        }
+
+        .scenario-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .price-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .price-table th,
+        .price-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .price-table th {
+            background: #0078D4;
+            color: white;
+            font-weight: bold;
+        }
+
+        .price-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .show-answer-btn {
+            background: linear-gradient(135deg, #0078D4 0%, #106EBE 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .show-answer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .answer-explanation {
+            background: #e8f5e8;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+
+        .answer-explanation.show {
+            display: block;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 30px;
+            background: #0078D4;
+            color: white;
+            font-size: 1.1em;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section h2 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AZ-900 Microsoft Azure Fundamentals</h1>
+            <p>Practice Questions - Part 3 of 3</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>Identity, Governance, Privacy, and Compliance Features</h2>
+                
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">1</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Microsoft Entra ID (formerly Azure Active Directory)?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A cloud-based identity and access management service</li>
+                        <li data-option="b">B) A virtual machine management service</li>
+                        <li data-option="c">C) A storage service</li>
+                        <li data-option="d">D) A networking service</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) A cloud-based identity and access management service</strong><br>
+                        Microsoft Entra ID (formerly Azure Active Directory) is Microsoft's cloud-based identity and access management service that helps employees sign in and access resources in external and internal applications.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">2</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Multi-Factor Authentication (MFA)?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Using multiple passwords</li>
+                        <li data-option="b">B) A security method that requires two or more verification factors</li>
+                        <li data-option="c">C) Creating multiple user accounts</li>
+                        <li data-option="d">D) Having multiple administrators</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) A security method that requires two or more verification factors</strong><br>
+                        Multi-Factor Authentication (MFA) is a security enhancement that requires users to provide two or more verification factors to gain access to a resource, making it harder for unauthorized users to gain access.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">3</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Single Sign-On (SSO)?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Using one password for everything</li>
+                        <li data-option="b">B) Having one user account per application</li>
+                        <li data-option="c">C) The ability to access multiple applications with one set of credentials</li>
+                        <li data-option="d">D) Creating a single administrator account</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) The ability to access multiple applications with one set of credentials</strong><br>
+                        Single Sign-On (SSO) allows users to log in once and access multiple applications without having to authenticate again, improving user experience and reducing password fatigue.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">4</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Policy used for?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Creating and managing policies to enforce organizational standards</li>
+                        <li data-option="b">B) Managing virtual machines</li>
+                        <li data-option="c">C) Storing data</li>
+                        <li data-option="d">D) Creating networks</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) Creating and managing policies to enforce organizational standards</strong><br>
+                        Azure Policy helps to enforce organizational standards and assess compliance at scale by creating, assigning, and managing policies that run different rules and actions over resources.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">5</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Role-Based Access Control (RBAC)?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A backup system</li>
+                        <li data-option="b">B) A method of restricting access based on user roles</li>
+                        <li data-option="c">C) A storage encryption method</li>
+                        <li data-option="d">D) A network security protocol</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) A method of restricting access based on user roles</strong><br>
+                        Role-Based Access Control (RBAC) helps manage who has access to Azure resources, what they can do with those resources, and what areas they have access to based on their role in the organization.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">6</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Blueprints?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A virtual machine template</li>
+                        <li data-option="b">B) A storage solution</li>
+                        <li data-option="c">C) A service for defining repeatable sets of Azure resources</li>
+                        <li data-option="d">D) A network configuration tool</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) A service for defining repeatable sets of Azure resources</strong><br>
+                        Azure Blueprints enables cloud architects to define a repeatable set of Azure resources that implements and adheres to an organization's standards, patterns, and requirements.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">7</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is the Azure compliance documentation?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Detailed information about Azure's compliance with various standards and regulations</li>
+                        <li data-option="b">B) A backup service documentation</li>
+                        <li data-option="c">C) Virtual machine setup guides</li>
+                        <li data-option="d">D) Network configuration manuals</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) Detailed information about Azure's compliance with various standards and regulations</strong><br>
+                        Azure compliance documentation provides detailed information about how Azure services comply with various industry standards, regulations, and certifications such as ISO, SOC, HIPAA, and GDPR.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">8</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Resource Manager (ARM) locks?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A security feature for user accounts</li>
+                        <li data-option="b">B) A feature to prevent accidental deletion or modification of resources</li>
+                        <li data-option="c">C) A network security tool</li>
+                        <li data-option="d">D) A storage encryption method</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) A feature to prevent accidental deletion or modification of resources</strong><br>
+                        ARM locks help prevent accidental deletion or modification of critical resources by applying locks at the subscription, resource group, or resource level.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">9</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Arc?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A storage service</li>
+                        <li data-option="b">B) A virtual machine service</li>
+                        <li data-option="c">C) A service that extends Azure management to on-premises and multi-cloud environments</li>
+                        <li data-option="d">D) A network monitoring tool</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) A service that extends Azure management to on-premises and multi-cloud environments</strong><br>
+                        Azure Arc extends Azure management and services to any infrastructure, enabling you to manage servers, Kubernetes clusters, and data services across on-premises, multi-cloud, and edge environments.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a,c">
+                    <div class="question-header">
+                        <div class="question-number">10</div>
+                        <div class="question-type">Multiple Select</div>
+                    </div>
+                    <div class="question-title">Which of the following are benefits of Microsoft Entra ID (formerly Azure Active Directory)? (Select all that apply)</div>
+                    <ul class="checkbox-options">
+                        <li data-option="a">A) Single Sign-On (SSO) capabilities</li>
+                        <li data-option="b">B) Physical server management</li>
+                        <li data-option="c">C) Multi-Factor Authentication (MFA)</li>
+                        <li data-option="d">D) Virtual machine provisioning</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answers: A) Single Sign-On (SSO) capabilities and C) Multi-Factor Authentication (MFA)</strong><br>
+                        Microsoft Entra ID (formerly Azure Active Directory) provides SSO capabilities allowing users to access multiple applications with one set of credentials, and MFA for enhanced security. It does not manage physical servers or provision virtual machines.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="cost">Azure Cost Management and Service Level Agreements</h2>
+                
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">1</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is the Azure pricing calculator used for?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Managing existing Azure resources</li>
+                        <li data-option="b">B) Estimating costs for planned Azure deployments</li>
+                        <li data-option="c">C) Monitoring current resource usage</li>
+                        <li data-option="d">D) Creating virtual machines</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) Estimating costs for planned Azure deployments</strong><br>
+                        The Azure pricing calculator helps you estimate the costs for your planned Azure deployments before you create resources, allowing you to make informed decisions about service configurations and regions.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">2</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is the Total Cost of Ownership (TCO) calculator?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A tool for managing Azure subscriptions</li>
+                        <li data-option="b">B) A virtual machine configuration tool</li>
+                        <li data-option="c">C) A tool to estimate cost savings by migrating to Azure</li>
+                        <li data-option="d">D) A network monitoring tool</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) A tool to estimate cost savings by migrating to Azure</strong><br>
+                        The TCO calculator helps you estimate the potential cost savings by migrating your on-premises workloads to Azure, comparing the costs of running infrastructure on-premises versus in Azure.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">3</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is Azure Cost Management?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A service for monitoring, analyzing, and optimizing Azure costs</li>
+                        <li data-option="b">B) A virtual machine management service</li>
+                        <li data-option="c">C) A backup service</li>
+                        <li data-option="d">D) A network configuration tool</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) A service for monitoring, analyzing, and optimizing Azure costs</strong><br>
+                        Azure Cost Management provides tools to monitor, analyze, and optimize your Azure spending, helping you understand where your money is going and how to reduce costs.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">4</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What factors affect Azure costs?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Only the number of virtual machines</li>
+                        <li data-option="b">B) Resource type, consumption, maintenance, geography, subscription type, and Azure Marketplace</li>
+                        <li data-option="c">C) Only the Azure region selected</li>
+                        <li data-option="d">D) Only the subscription type</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) Resource type, consumption, maintenance, geography, subscription type, and Azure Marketplace</strong><br>
+                        Azure costs are affected by multiple factors including the type of resources used, how much you consume, maintenance requirements, geographical location, subscription type, and any Azure Marketplace services.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">5</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is a Service Level Agreement (SLA)?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A pricing model for Azure services</li>
+                        <li data-option="b">B) A security protocol</li>
+                        <li data-option="c">C) A formal agreement that defines performance standards and uptime guarantees</li>
+                        <li data-option="d">D) A backup procedure</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) A formal agreement that defines performance standards and uptime guarantees</strong><br>
+                        An SLA is a formal agreement between a service provider and customer that defines the level of service expected, including performance standards, uptime guarantees, and remedies for non-compliance.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">6</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="scenario-box">
+                        <div class="scenario-title">Scenario:</div>
+                        Your company is planning to migrate several applications to Azure. You need to calculate the potential cost savings compared to your current on-premises infrastructure that includes 10 physical servers, networking equipment, and datacenter facilities.
+                    </div>
+                    <div class="question-title">Which tool would be most appropriate for this scenario?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Total Cost of Ownership (TCO) calculator</li>
+                        <li data-option="b">B) Azure pricing calculator</li>
+                        <li data-option="c">C) Azure Cost Management</li>
+                        <li data-option="d">D) Azure Monitor</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) Total Cost of Ownership (TCO) calculator</strong><br>
+                        The TCO calculator is specifically designed to help organizations estimate the cost savings of migrating from on-premises infrastructure to Azure by comparing the total costs of ownership.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">7</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is typically included in an Azure SLA?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Detailed pricing information</li>
+                        <li data-option="b">B) Uptime percentage guarantees and service credits</li>
+                        <li data-option="c">C) Security configurations</li>
+                        <li data-option="d">D) Application deployment procedures</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) Uptime percentage guarantees and service credits</strong><br>
+                        Azure SLAs typically include uptime percentage guarantees (e.g., 99.9%) and service credits that customers can claim if the service doesn't meet the guaranteed uptime levels.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">8</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">Which Azure service provides spending limits and budgets?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Azure Monitor</li>
+                        <li data-option="b">B) Azure Advisor</li>
+                        <li data-option="c">C) Azure Cost Management and Billing</li>
+                        <li data-option="d">D) Azure Security Center</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) Azure Cost Management and Billing</strong><br>
+                        Azure Cost Management and Billing provides features to set spending limits, create budgets, and receive alerts when spending approaches or exceeds defined thresholds.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <div class="question-header">
+                        <div class="question-number">9</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What happens if an Azure service doesn't meet its SLA?</div>
+                    <ul class="options">
+                        <li data-option="a">A) Customers may be eligible for service credits</li>
+                        <li data-option="b">B) The service is automatically terminated</li>
+                        <li data-option="c">C) All data is immediately backed up</li>
+                        <li data-option="d">D) The service is moved to a different region</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: A) Customers may be eligible for service credits</strong><br>
+                        If an Azure service doesn't meet its SLA commitments, customers may be eligible for service credits, which are typically applied as credits to future Azure bills based on the severity and duration of the outage.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <div class="question-header">
+                        <div class="question-number">10</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">What is the Azure Free Account?</div>
+                    <ul class="options">
+                        <li data-option="a">A) A completely free Azure account with no limitations</li>
+                        <li data-option="b">B) An account that includes free services for 12 months and a credit for the first 30 days</li>
+                        <li data-option="c">C) A trial account for Microsoft employees only</li>
+                        <li data-option="d">D) A backup account for existing Azure customers</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: B) An account that includes free services for 12 months and a credit for the first 30 days</strong><br>
+                        The Azure Free Account includes a $200 credit to use within the first 30 days, free access to popular services for 12 months, and access to always-free services with monthly limits.
+                    </div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <div class="question-header">
+                        <div class="question-number">11</div>
+                        <div class="question-type">Multiple Choice</div>
+                    </div>
+                    <div class="question-title">The following table shows the SLA for different Azure services. Based on this information, what would be the composite SLA for a solution that uses both Azure SQL Database and Azure App Service?</div>
+                    <table class="price-table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>SLA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Azure SQL Database</td>
+                                <td>99.99%</td>
+                            </tr>
+                            <tr>
+                                <td>Azure App Service</td>
+                                <td>99.95%</td>
+                            </tr>
+                            <tr>
+                                <td>Azure Storage</td>
+                                <td>99.9%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ul class="options">
+                        <li data-option="a">A) 99.99% (highest individual SLA)</li>
+                        <li data-option="b">B) 99.95% (lowest individual SLA)</li>
+                        <li data-option="c">C) 99.94% (99.99% × 99.95%)</li>
+                        <li data-option="d">D) 199.94% (99.99% + 99.95%)</li>
+                    </ul>
+                    <button class="show-answer-btn">Show Answer</button>
+                    <div class="answer-explanation">
+                        <strong>Correct Answer: C) 99.94% (99.99% × 99.95%)</strong><br>
+                        When multiple services are used together, the composite SLA is calculated by multiplying the individual SLAs: 99.99% × 99.95% = 99.94%. This is because both services need to be available for the solution to work properly.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            © Bright Mind Tech 2025
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const questions = document.querySelectorAll('.question');
+            
+            questions.forEach(question => {
+                const options = question.querySelectorAll('.options li');
+                const checkboxOptions = question.querySelectorAll('.checkbox-options li');
+                const showAnswerBtn = question.querySelector('.show-answer-btn');
+                const answerExplanation = question.querySelector('.answer-explanation');
+                const correctAnswer = question.getAttribute('data-answer');
+                
+                // Handle single-choice option selection
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        // Remove selected class from all options in this question
+                        options.forEach(opt => opt.classList.remove('selected'));
+                        // Add selected class to clicked option
+                        this.classList.add('selected');
+                    });
+                });
+
+                // Handle multi-choice option selection
+                checkboxOptions.forEach(option => {
+                    option.addEventListener('click', function() {
+                        // Toggle selected class
+                        this.classList.toggle('selected');
+                    });
+                });
+                
+                // Handle show answer button
+                showAnswerBtn.addEventListener('click', function() {
+                    answerExplanation.classList.add('show');
+                    showAnswerBtn.style.display = 'none';
+                    
+                    // Handle single-choice answers
+                    options.forEach(option => {
+                        const optionLetter = option.getAttribute('data-option');
+                        if (optionLetter === correctAnswer) {
+                            option.classList.add('correct');
+                        } else if (option.classList.contains('selected')) {
+                            option.classList.add('incorrect');
+                        }
+                    });
+
+                    // Handle multi-choice answers
+                    if (correctAnswer && correctAnswer.includes(',')) {
+                        const correctAnswers = correctAnswer.split(',');
+                        checkboxOptions.forEach(option => {
+                            const optionLetter = option.getAttribute('data-option');
+                            if (correctAnswers.includes(optionLetter)) {
+                                option.classList.add('correct');
+                            } else if (option.classList.contains('selected')) {
+                                option.classList.add('incorrect');
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
